@@ -1,11 +1,11 @@
 # pip install yt-dlp imageio-ffmpeg pyinstaller
+# pyinstaller --onefile --noconsole "Youtube to mp3 converter.py"
 import os
 import threading
 import yt_dlp
 import imageio_ffmpeg as ffmpeg
 import tkinter as tk
 from tkinter import messagebox
-
 
 def download_youtube_mp3(url, quality, filename=None):
     save_path = os.path.join(os.path.expanduser("~"), "Desktop", "mp3DL")
@@ -33,12 +33,10 @@ def download_youtube_mp3(url, quality, filename=None):
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
 
-
 def reset_gui():
     url_entry.delete(0, tk.END)
     filename_entry.delete(0, tk.END)
     quality_var.set("192")
-
 
 def start_download_thread():
     url = url_entry.get().strip()
@@ -49,6 +47,8 @@ def start_download_thread():
         messagebox.showerror("エラー", "YouTubeのURLを入力してください")
         return
 
+    download_btn.config(text="ダウンロード中...", state="disabled", bg="gray")
+
     def download_task():
         try:
             download_youtube_mp3(url, quality, filename)
@@ -56,6 +56,8 @@ def start_download_thread():
             root.after(0, reset_gui)
         except Exception as e:
             root.after(0, lambda: messagebox.showerror("失敗", f"ダウンロードに失敗しました:\n{e}"))
+        finally:
+            root.after(0, lambda: download_btn.config(text="ダウンロード", state="normal", bg="blue"))
 
     threading.Thread(target=download_task, daemon=True).start()
 
