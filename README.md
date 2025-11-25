@@ -6,7 +6,7 @@ pycharmで作ったやつ
 | ---------------- | -------------------------------- |
 | `yt-dlp`         | YouTube の動画・音声をダウンロードする          |
 | `imageio-ffmpeg` | FFmpeg の実行ファイルを取得して、音声変換（mp3）に利用 |
-| `pyinstaller`    | スクリプトを単体の exe に変換する              |
+| `pyinstaller`    | スクリプトを exe に変換する              |
 
 YouTubeリンクからmp3を作成できます。
 
